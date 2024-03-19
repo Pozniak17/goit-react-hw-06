@@ -1,5 +1,5 @@
-import { addContacts, deleteContacts, setFilteredContacts } from "./actions";
-import { createReducer } from "@reduxjs/toolkit";
+import { nanoid } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   contacts: [
@@ -8,33 +8,65 @@ const initialState = {
     { id: "id-3", name: "Eden Clements", number: "645-17-79" },
     { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
   ],
-  filter: "",
 };
 
-// Редюсер для обробки контактів
-export const contactsReducer = createReducer(
-  initialState.contacts,
-  (builder) => {
-    builder
-      .addCase(addContacts, (state, action) => {
-        // return [action.payload, ...state];
-        state.unshift(action.payload);
-      })
-      .addCase(deleteContacts, (state, action) => {
-        // return state.filter((contact) => contact.id !== action.payload);
-        const index = state.findIndex(
-          (contact) => contact.id === action.payload
-        );
-        state.splice(index, 1);
-      });
-  }
-);
+export const contactsSlice = createSlice({
+  name: "contacts",
+  initialState: initialState.contacts,
 
-export const filterReducer = createReducer(initialState.filter, (builder) => {
-  builder.addCase(setFilteredContacts, (state, action) => {
-    return action.payload;
-  });
+  reducers: {
+    addContacts: {
+      reducer(state, action) {
+        state.unshift(action.payload);
+      },
+
+      prepare(name, number) {
+        return {
+          payload: {
+            id: nanoid(),
+            name,
+            number,
+          },
+        };
+      },
+    },
+
+    deleteContacts(state, action) {
+      const index = state.findIndex((contact) => contact.id === action.payload);
+      state.splice(index, 1);
+    },
+  },
 });
+
+// Генератори екшенів
+export const { addContacts, deleteContacts } = contactsSlice.actions;
+
+export const contactsReducer = contactsSlice.reducer;
+
+// Редюсер для обробки контактів
+// export const contactsReducer = createReducer(
+//   initialState.contacts,
+//   (builder) => {
+//     builder
+//       .addCase(addContacts, (state, action) => {
+//         // return [action.payload, ...state];
+//         state.unshift(action.payload);
+//       })
+//       .addCase(deleteContacts, (state, action) => {
+//         // return state.filter((contact) => contact.id !== action.payload);
+//         const index = state.findIndex(
+//           (contact) => contact.id === action.payload
+//         );
+//         state.splice(index, 1);
+//       });
+//   }
+// );
+
+// export const filterReducer = createReducer(initialState.filter, (builder) => {
+//   builder.addCase(setFilteredContacts, (state, action) => {
+//     return action.payload;
+//   });
+// });
 
 // Редюсер для обробки контактів
 // export const contactsReducer = (state = initialState.contacts, action) => {

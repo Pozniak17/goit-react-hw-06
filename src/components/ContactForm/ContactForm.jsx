@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { addContacts } from "../../redux/actions.js";
+import { addContacts } from "../../redux/contactsSlice";
 
 import {
   FormContainer,
