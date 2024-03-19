@@ -14,6 +14,8 @@ export const filterSlice = createSlice({
   },
 });
 
-// Експортуємо генератори екшенів та редюсер
+// Генератори екшенів
 export const { setFilteredContacts } = filterSlice.actions;
+
+// Редюсер слайсу
 export const filterReducer = filterSlice.reducer;
