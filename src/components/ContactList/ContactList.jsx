@@ -11,10 +11,16 @@ export default function ContactList() {
   );
 
   return (
-    <ul>
-      {filteredContacts.map(({ id, name, number }) => (
-        <Contact key={id} name={name} number={number} id={id} />
-      ))}
-    </ul>
+    <>
+      {filteredContacts.length > 0 ? (
+        <ul>
+          {filteredContacts.map(({ id, name, number }) => (
+            <Contact key={id} name={name} number={number} id={id} />
+          ))}
+        </ul>
+      ) : (
+        <b>No contacts found</b>
+      )}
+    </>
   );
 }

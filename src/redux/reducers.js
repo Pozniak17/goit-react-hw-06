@@ -1,4 +1,5 @@
-import { combineReducers } from "redux";
+import { addContacts, deleteContacts, setFilteredContacts } from "./actions";
+import { createReducer } from "@reduxjs/toolkit";
 
 const initialState = {
   contacts: [
@@ -11,34 +12,59 @@ const initialState = {
 };
 
 // Редюсер для обробки контактів
-const contactsReducer = (state = initialState.contacts, action) => {
-  switch (action.type) {
-    case "contacts/addTask": {
-      return [action.payload, ...state];
-    }
-    case "contacts/deleteTask": {
-      return state.filter((contact) => contact.id !== action.payload);
-    }
-    default:
-      return state;
+export const contactsReducer = createReducer(
+  initialState.contacts,
+  (builder) => {
+    builder
+      .addCase(addContacts, (state, action) => {
+        // return [action.payload, ...state];
+        state.unshift(action.payload);
+      })
+      .addCase(deleteContacts, (state, action) => {
+        // return state.filter((contact) => contact.id !== action.payload);
+        const index = state.findIndex(
+          (contact) => contact.id === action.payload
+        );
+        state.splice(index, 1);
+      });
   }
-};
+);
+
+export const filterReducer = createReducer(initialState.filter, (builder) => {
+  builder.addCase(setFilteredContacts, (state, action) => {
+    return action.payload;
+  });
+});
+
+// Редюсер для обробки контактів
+// export const contactsReducer = (state = initialState.contacts, action) => {
+//   switch (action.type) {
+//     case addContacts.type: {
+//       return [action.payload, ...state];
+//     }
+//     case deleteContacts.type: {
+//       return state.filter((contact) => contact.id !== action.payload);
+//     }
+//     default:
+//       return state;
+//   }
+// };
 
 // Редюсер для обробки фільтра
-const filterReducer = (state = initialState.filter, action) => {
-  switch (action.type) {
-    case "contacts/filter":
-      return action.payload;
-    default:
-      return state;
-  }
-};
+// export const filterReducer = (state = initialState.filter, action) => {
+//   switch (action.type) {
+//     case setFilteredContacts.type:
+//       return action.payload;
+//     default:
+//       return state;
+//   }
+// };
 
 // Комбінуємо редюсери
-export const rootReducer = combineReducers({
-  contacts: contactsReducer,
-  filter: filterReducer,
-});
+// export const rootReducer = combineReducers({
+//   contacts: contactsReducer,
+//   filter: filterReducer,
+// });
 
 // const initialState = {
 //   contacts: [
