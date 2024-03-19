@@ -6,17 +6,13 @@ export default function ContactList() {
   const filter = useSelector((state) => state.filter);
   console.log(filter);
 
-  // const filteredContacts = () => {
-  //   const normalizedFilter = filter.toLowerCase();
-
-  //   return contacts.filter((contact) =>
-  //     contact.name.toLowerCase().includes(normalizedFilter)
-  //   );
-  // };
+  const filteredContacts = contacts.filter((contact) =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
+  );
 
   return (
     <ul>
-      {contacts.map(({ id, name, number }) => (
+      {filteredContacts.map(({ id, name, number }) => (
         <Contact key={id} name={name} number={number} id={id} />
       ))}
     </ul>

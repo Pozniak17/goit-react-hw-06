@@ -1,5 +1,3 @@
-// Початкове значення стану Redux для кореневого редюсера,
-// якщо не передати параметр preloadedState.
 const initialState = {
   contacts: [
     { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
@@ -10,10 +8,7 @@ const initialState = {
   filter: "",
 };
 
-// Поки що використовуємо редюсер який
-// тільки повертає отриманий стан
 export const rootReducer = (state = initialState, action) => {
-  // Редюсер розрізняє екшени за значенням властивості type
   switch (action.type) {
     case "contacts/addTask": {
       return {
@@ -34,9 +29,6 @@ export const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         filter: action.payload,
-        contacts: state.contacts.filter((contact) =>
-          contact.name.toLowerCase().includes(action.payload)
-        ),
       };
 
     default:
