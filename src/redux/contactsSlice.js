@@ -27,8 +27,9 @@ export const contactsSlice = createSlice({
     },
 
     deleteContacts(state, action) {
-      const index = state.findIndex((contact) => contact.id === action.payload);
-      state.splice(index, 1);
+      state.items = state.items.filter(
+        (contact) => contact.id !== action.payload
+      );
     },
   },
 });
