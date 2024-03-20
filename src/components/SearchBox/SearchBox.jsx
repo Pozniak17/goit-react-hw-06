@@ -1,14 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import { FilterLabel, FilterInput } from "./SearchBox.styled";
-import { setFilteredContacts } from "../../redux/filterSlice";
+import { selectNameFilter, setFilterName } from "../../redux/filtersSlice";
 
 export default function SearchBox() {
-  const filterValue = useSelector((state) => state.filter);
+  const filterValue = useSelector(selectNameFilter);
   const dispatch = useDispatch();
 
   const handleChange = (event) => {
     const newFilterValue = event.target.value; // Отримайте нове значення фільтру з події onChange
-    dispatch(setFilteredContacts(newFilterValue)); // Відправте дію для оновлення фільтрованих контактів у ваш Redux-стор
+    dispatch(setFilterName(newFilterValue)); // Відправте дію для оновлення фільтрованих контактів у ваш Redux-стор
   };
   return (
     <FilterLabel>
